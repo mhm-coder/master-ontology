@@ -1,7 +1,7 @@
 {
   "name": "master-ontology",
   "version": "1.0.0",
-  "description": "Clinical concepts fr Master Ontology",
+  "description": "Clinical concepts for Master Ontology",
   "main": "server.js",
   "scripts": {
     "start": "node backend/server.js",
