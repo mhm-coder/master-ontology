@@ -1,10 +1,8 @@
 const express = require('express')
+const {getConcepts, updateConcept, deleteConcept, addConcept} = require("../controllers/conceptController");
 const router = express.Router()
 
-router.get('/', (req, res) => res.status(200).json({message: 'Get Concepts'}))
-router.post('/', (req, res) => res.status(200).json({message: 'Create Concept'}))
-router.put('/:id', (req, res) => res.status(200).json({message: `Update Concept ${req.params.id}`}))
-router.delete('/:id', (req, res) => res.status(200).json({message: `Delete Concept ${req.params.id}`}))
-
+router.route('/').get(getConcepts).post(addConcept)
+router.route('/:id').put(updateConcept).delete(deleteConcept)
 
 module.exports = router
