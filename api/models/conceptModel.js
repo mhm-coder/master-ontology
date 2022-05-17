@@ -14,4 +14,4 @@ const conceptSchema = mongoose.Schema({
     timestamps: true
 })
 
-module.exports = mongoose.model('conceptModel', conceptSchema)
+module.exports = mongoose.model('concept', conceptSchema)

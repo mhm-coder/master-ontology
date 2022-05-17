@@ -3,27 +3,16 @@ const bcrypt = require('bcryptjs')
 const asyncHandler = require('express-async-handler')
 const {userModel} = require("../models");
 
-const loginUser = asyncHandler(async (req, res) => {
-    const {email, password} = req.body
-    const user = await userModel.findOne({email})
-
-    if (user && await bcrypt.compare(password, user.password)) {
-        console.log('user.id: ', user.id)
-        console.log('user._id: ', user._id)
-        const {id: _id, name, email} = user
-        res.status(201).json({_id, name, email, token: generateToken(user._id)})
-    } else {
-        res.status(400)
-        throw new Error('Invalid credentials')
-    }
-})
-
+// @desc    Register new user
+// @route   POST /api/users
+// @access  Public
 const registerUser = asyncHandler(async (req, res) => {
     const {name, email, password} = req.body
 
+    console.log('req.body - ', req.body)
     if (!name || !email || !password) {
         res.status(400)
-        throw new Error('Please add all fields')
+        throw new Error('Please add all fields (name, email, password)')
     }
 
     const userExists = await userModel.findOne({email})
@@ -48,10 +37,30 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 })
 
-const getCurrentUser = asyncHandler(async (req, res) => {
-    res.status(200).json('Get Current User')
+// @desc    Authenticate a user
+// @route   POST /api/users/login
+// @access  Public
+const loginUser = asyncHandler(async (req, res) => {
+    const {email, password} = req.body
+    const user = await userModel.findOne({email})
+
+    if (user && await bcrypt.compare(password, user.password)) {
+        const {id: _id, name, email} = user
+        res.status(201).json({_id, name, email, token: generateToken(user._id)})
+    } else {
+        res.status(400)
+        throw new Error('Invalid credentials')
+    }
 })
 
+// @desc    Get user data
+// @route   GET /api/users/current
+// @access  Private
+const getCurrentUser = asyncHandler(async (req, res) => {
+    res.status(200).json(req.user)
+})
+
+// Generate JWT
 const generateToken = id => jwt.sign({id}, process.env.JWT_SECRET, {expiresIn: '30d'})
 
 module.exports = {registerUser, loginUser, getCurrentUser}
