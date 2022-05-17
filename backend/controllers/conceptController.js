@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler')
-const conceptModel = require('../models/conceptModel')
 const {errorHandler} = require("../middlewares/errorMiddleware");
+const {conceptModel} = require("../models");
 
 const getConcepts = asyncHandler(async (req, res) => {
     const concepts = await conceptModel.find()
