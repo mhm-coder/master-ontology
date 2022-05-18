@@ -1,5 +1,4 @@
-import { createAsyncThunk, createSlice, Draft, PayloadAction } from "@reduxjs/toolkit";
-import { authService } from "../services/authService";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { conceptService } from "../services/conceptService";
 
 export interface ConceptState {
@@ -11,9 +10,10 @@ export interface ConceptState {
 }
 
 export interface Concept {
-  name: string,
-  email: string,
-  password: string,
+  conceptId: string,
+  displayName: string,
+  description: string,
+  childIds: string,
 }
 
 const initialState: ConceptState = {
@@ -24,7 +24,7 @@ const initialState: ConceptState = {
   message: '',
 }
 
-const respondWithError = (error: any, thunkAPI) =>{
+const respondWithError = (error: any, thunkAPI: any) =>{
   const message = error?.response?.data?.message || error.message || error.toString()
   return thunkAPI.rejectWithValue(message)
 }
@@ -121,4 +121,4 @@ export const conceptSlice = createSlice({
   },
 })
 
-export const authActions = {...conceptSlice.actions, getAll, add, update, remove}
+export const conceptActions = {...conceptSlice.actions, getAll, add, update, remove}

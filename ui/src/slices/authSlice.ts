@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, Draft, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { authService } from "../services/authService";
 
 export interface AuthState {
@@ -68,6 +68,7 @@ export const authSlice = createSlice({
         state.isLoading = true
       })
       .addCase(register.fulfilled, (state, action: any) => {
+        debugger
         state.isLoading = false
         state.isSuccess = true
         state.user = action.payload

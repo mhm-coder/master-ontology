@@ -1,17 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { RootState } from "../store";
+import { AppDispatch, RootState } from "../store";
+import { conceptActions } from "../slices/conceptSlice";
 
 const Dashboard = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
 
-  const {user} = useSelector((state) => state.auth)
-  const {concepts, isLoading, isError, message} = useSelector(
-    (state: RootState) => state.auth
-  )
+  const {user} = useSelector((state: RootState) => state.auth)
+  const {concepts, isLoading, isError, message} = useSelector((state: RootState) => {
+    debugger
+    return state.concept
+  })
 
   useEffect(() => {
     if (isError) {
@@ -22,34 +23,30 @@ const Dashboard = () => {
       navigate('/login')
     }
 
-    dispatch(getGoals())
+    dispatch(conceptActions.getAll())
 
     return () => {
-      dispatch(reset())
+      dispatch(conceptActions.reset())
     }
   }, [user, navigate, isError, message, dispatch])
 
   if (isLoading) {
-    return <Spinner/>
+    return <h2>Loading...</h2>
   }
 
   return (
     <>
       <section className='heading'>
-        <h1>Welcome {user && user.name}</h1>
         <p>Clinical Concepts</p>
       </section>
 
       <section className='content'>
-        {concepts?.length > 0 ? (
-          <div className='goals'>
-            {goals.map((goal) => (
-              <GoalItem key={goal._id} goal={goal}/>
-            ))}
-          </div>
-        ) : (
-          <h3>You have not set any goals</h3>
-        )}
+        {concepts.length ? <ul>
+          {concepts.map(concept => <li>{concept.description}</li>)}
+        </ul> : <h3>There are no concepts</h3>
+        }
+
+        <button type='submit' className='btn btn-block'>Add Concept</button>
       </section>
     </>
   )

@@ -15,9 +15,7 @@ const conceptSchema = mongoose.Schema({
     },
     childIds: {
         type: String,
-    },
-
-
+    }
 }, {
     timestamps: true
 })
