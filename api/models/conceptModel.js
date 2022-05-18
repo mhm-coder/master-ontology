@@ -1,15 +1,23 @@
 const mongoose = require('mongoose')
 
 const conceptSchema = mongoose.Schema({
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'userModel'
+    conceptId: {
+        type: Number,
+        required: true
     },
-    text: {
+    displayName: {
         type: String,
         required: [true, 'Please add a text value']
-    }
+    },
+    description: {
+        type: String,
+        required: [true, 'Please add a text value']
+    },
+    childIds: {
+        type: String,
+    },
+
+
 }, {
     timestamps: true
 })
