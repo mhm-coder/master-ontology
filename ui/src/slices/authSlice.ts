@@ -16,7 +16,6 @@ export interface User {
 }
 
 // Get user from localStorage
-debugger
 const user = JSON.parse(localStorage.user ?? null)
 
 const initialState: AuthState = {
@@ -55,7 +54,6 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => {
-      debugger
       state.isLoading = false
       state.isSuccess = false
       state.isError = false
@@ -68,7 +66,6 @@ export const authSlice = createSlice({
         state.isLoading = true
       })
       .addCase(register.fulfilled, (state, action: any) => {
-        debugger
         state.isLoading = false
         state.isSuccess = true
         state.user = action.payload
@@ -99,4 +96,4 @@ export const authSlice = createSlice({
   },
 })
 
-export const authActions = {...authSlice.actions, register}
+export const authActions = {...authSlice.actions, register, login, logout}

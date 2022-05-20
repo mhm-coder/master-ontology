@@ -8,6 +8,5 @@ export const store = configureStore({
     concept: conceptSlice.reducer
   }
 })
-debugger
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch

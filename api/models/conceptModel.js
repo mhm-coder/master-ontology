@@ -1,11 +1,10 @@
 const mongoose = require('mongoose')
 
 const conceptSchema = mongoose.Schema({
-    conceptId: {
-        type: Number,
-        required: true
+    conceptNumber: {
+        type: Number
     },
-    displayName: {
+    name: {
         type: String,
         required: [true, 'Please add a text value']
     },

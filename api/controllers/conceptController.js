@@ -2,7 +2,6 @@ const asyncHandler = require('express-async-handler')
 const {errorHandler} = require("../middlewares/errorMiddleware");
 const {conceptModel} = require("../models");
 
-
 // @desc    Get concepts
 // @route   GET /api/concepts
 // @access  Private
@@ -11,23 +10,24 @@ const getConcepts = asyncHandler(async (req, res) => {
     res.status(200).json(concepts)
 })
 
-
-
 // @desc    Set concept
 // @route   POST /api/concepts
 // @access  Private
 const addConcept = asyncHandler(async (req, res) => {
-    if (!req.body.text) {
+    if (!req.body.name) {
         res.status(400)
-        throw new Error('Please add a text field')
+        throw new Error('Please add a concept name')
     }
-
-    const concept = await conceptModel.create({
-        text: req.body.text,
-        user: req.user.id
-
+    let conceptNumber
+    conceptModel.countDocuments(async (err, count) => {
+        const concept = await conceptModel.create({
+            name: req.body.name,
+            description: req.body.description,
+            conceptNumber: count + 1
+        })
+        res.status(200).json(concept)
     })
-    res.status(200).json(concept)
+
 })
 
 const updateConcept = asyncHandler(async (req, res) => {

@@ -4,7 +4,8 @@ export const api_url = {
     login: '/api/users/login'
   },
   concept: {
-    add: '/api/users/',
+    add: '/api/concepts/',
+    getAll: '/api/concepts/',
     delete: '/api/users/login'
   },
 }

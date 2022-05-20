@@ -79,8 +79,9 @@ const onPending = (state: any) => {
 
 const onFulfilled = (state: any, action: any) => {
   state.isLoading = false
+  console.log('fulfilles concept')
   state.isSuccess = true
-  state.user = action.payload
+  state.concepts = action.payload
 }
 
 const onRejected = (state: any, action: any) => {
@@ -95,11 +96,11 @@ export const conceptSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => {
-      debugger
       state.isLoading = false
       state.isSuccess = false
       state.isError = false
       state.message = ''
+      return state
     },
   },
   extraReducers: (builder) => {
@@ -110,12 +111,12 @@ export const conceptSlice = createSlice({
       .addCase(add.pending, onPending)
       .addCase(add.fulfilled, onFulfilled)
       .addCase(add.rejected, onRejected)
-      .addCase(update.pending, onPending)
-      .addCase(update.fulfilled, onFulfilled)
-      .addCase(update.rejected, onRejected)
-      .addCase(remove.pending, onPending)
-      .addCase(remove.fulfilled, onFulfilled)
-      .addCase(remove.rejected, onRejected)
+      // .addCase(update.pending, onPending)
+      // .addCase(update.fulfilled, onFulfilled)
+      // .addCase(update.rejected, onRejected)
+      // .addCase(remove.pending, onPending)
+      // .addCase(remove.fulfilled, onFulfilled)
+      // .addCase(remove.rejected, onRejected)
 
 
   },

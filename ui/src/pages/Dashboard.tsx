@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../store";
 import { conceptActions } from "../slices/conceptSlice";
 
@@ -10,7 +10,6 @@ const Dashboard = () => {
 
   const {user} = useSelector((state: RootState) => state.auth)
   const {concepts, isLoading, isError, message} = useSelector((state: RootState) => {
-    debugger
     return state.concept
   })
 
@@ -26,6 +25,7 @@ const Dashboard = () => {
     dispatch(conceptActions.getAll())
 
     return () => {
+      debugger
       dispatch(conceptActions.reset())
     }
   }, [user, navigate, isError, message, dispatch])
@@ -46,7 +46,11 @@ const Dashboard = () => {
         </ul> : <h3>There are no concepts</h3>
         }
 
-        <button type='submit' className='btn btn-block'>Add Concept</button>
+        <button type='submit' className='btn btn-block' onClick={() => {
+          dispatch(conceptActions.reset())
+          navigate('/concept/new')
+        }}>Add Concept
+        </button>
       </section>
     </>
   )

@@ -1,38 +1,50 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
-import { useSelector } from "react-redux";
-import { RootState } from "../store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store";
+import { authActions } from "../slices/authSlice";
 
 const Header = () => {
   const {user} = useSelector((state: RootState) => state.auth)
+  const dispatch = useDispatch<AppDispatch>()
+  const navigate = useNavigate()
+
+  const onLogout = () => {
+    dispatch(authActions.logout())
+    dispatch(authActions.reset())
+    navigate('/')
+  }
   return <header className='header'>
     <div className='logo'>
       <Link to='/'>MasterOntology</Link>
     </div>
 
-    {user ? <ul>
+    <ul>
+      {user ? <>
         <li>
-          Welcome {user.name}
+          <span>Welcome {user.name}</span>
         </li>
         <li>
-          <Link to='/login'>
+          <button className='btn' onClick={onLogout}>
             <FaSignOutAlt/> Logout
-          </Link>
+          </button>
         </li>
-      </ul> :
-      <ul>
-        <li>
-          <Link to='/login'>
-            <FaSignInAlt/> Login
-          </Link>
-        </li>
+      </> : (
+        <>
+          <li>
+            <Link to='/login'>
+              <FaSignInAlt/> Login
+            </Link>
+          </li>
+          <li>
+            <Link to='/register'>
+              <FaUser/> Register
+            </Link>
+          </li>
+        </>
+      )}
+    </ul>
 
-        <li>
-          <Link to='/register'>
-            <FaUser/> Register
-          </Link>
-        </li>
-      </ul>}
   </header>
 }
 

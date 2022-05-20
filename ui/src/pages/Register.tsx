@@ -23,7 +23,6 @@ const Register = () => {
 
 
   useEffect(() => {
-    debugger
     if (isError) {
       toast.error(message)
     }
