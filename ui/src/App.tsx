@@ -8,22 +8,27 @@ import Header from "./components/Header";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import AddConcept from "./pages/AddConcept";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient()
 
 function App() {
   return (
     <>
       <Provider store={store}>
-        <BrowserRouter>
-          <div className='container'>
-            <Header/>
-            <Routes>
-              <Route path='/' element={<Dashboard/>}/>
-              <Route path='/login' element={<Login/>}/>
-              <Route path='/register' element={<Register/>}/>
-              <Route path='/concept/new' element={<AddConcept/>}/>
-            </Routes>
-          </div>
-        </BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+          <BrowserRouter>
+            <div className='container'>
+              <Header/>
+              <Routes>
+                <Route path='/' element={<Dashboard/>}/>
+                <Route path='/login' element={<Login/>}/>
+                <Route path='/register' element={<Register/>}/>
+                <Route path='/concept/new' element={<AddConcept/>}/>
+              </Routes>
+            </div>
+          </BrowserRouter>
+        </QueryClientProvider>
       </Provider>
     </>
   );
