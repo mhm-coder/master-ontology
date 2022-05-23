@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { authService } from "../services/authService";
+import { User } from "../types";
 
 export interface AuthState {
   user: User | null,
@@ -7,12 +8,6 @@ export interface AuthState {
   isLoading: boolean,
   isSuccess: boolean,
   message: string
-}
-
-export interface User {
-  name: string,
-  email: string,
-  password: string,
 }
 
 // Get user from localStorage

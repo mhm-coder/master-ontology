@@ -9,3 +9,7 @@ export const api_url = {
     delete: '/api/users/login'
   },
 }
+
+export const query_keys = {
+  concepts: 'concepts'
+}

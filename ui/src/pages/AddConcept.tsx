@@ -1,11 +1,9 @@
 import { useForm } from "react-hook-form";
-import { FaUser } from "react-icons/fa";
-import { useSelector, useDispatch } from 'react-redux'
-import { AppDispatch, RootState } from "../store";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { toast } from 'react-toastify'
-import { conceptActions } from "../slices/conceptSlice";
+import { useMutation } from "react-query";
+import { conceptService } from "../services/conceptService";
 
 interface ConceptForm {
   name: string
@@ -15,29 +13,22 @@ interface ConceptForm {
 const AddConcept = () => {
   const {register, handleSubmit} = useForm<ConceptForm>()
 
-  const {isLoading, isSuccess, message, isError} = useSelector((state: RootState) => state.concept)
-  const dispatch = useDispatch<AppDispatch>()
+  const {error, isLoading, isSuccess, mutate, isError} = useMutation(conceptService.add)
   const navigate = useNavigate()
 
   useEffect(() => {
-    dispatch(conceptActions.reset())
-  }, [])
-
-  useEffect(() => {
     if (isError) {
-      toast.error(message)
+      toast.error(error as string)
     }
 
     if (isSuccess) {
       navigate('/')
     }
 
-    dispatch(conceptActions.reset())
   }, [isError, isSuccess])
 
   const onSubmit = (data: ConceptForm) => {
-    // @ts-ignore
-    dispatch(conceptActions.add(data))
+    mutate(data)
   }
 
   return isLoading ? <h1>LOADING</h1> : <>
